@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APK Download</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #111;
+      color: white;
+      padding: 50px 20px;
+    }
+
+    .box {
+      max-width: 400px;
+      margin: auto;
+      padding: 30px 20px;
+      background: #222;
+      border-radius: 15px;
+    }
+
+    button {
+      border: 0;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #continueBtn {
+      display: none;
+    }
+
+    #downloadBtn {
+      display: none;
+      background: #20c997;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1>APK Download</h1>
+    <p>Click Continue to proceed.</p>
+
+    <button id="startBtn" onclick="startTimer()">Continue</button>
+
+    <p id="timer"></p>
+
+    <button id="continueBtn" onclick="showDownload()">
+      Continue
+    </button>
+
+    <a id="downloadBtn"
+       href="YOUR_APK_LINK_HERE"
+       download>
+      Download APK
+    </a>
+  </div>
+
+  <script>
+    function startTimer() {
+      document.getElementById("startBtn").style.display = "none";
+
+      let time = 10;
+      document.getElementById("timer").innerText =
+        "Please wait " + time + " seconds...";
+
+      let countdown = setInterval(function() {
+        time--;
+
+        document.getElementById("timer").innerText =
+          "Please wait " + time + " seconds...";
+
+        if (time <= 0) {
+          clearInterval(countdown);
+
+          document.getElementById("timer").innerText =
+            "You can continue now.";
+
+          document.getElementById("continueBtn").style.display =
+            "inline-block";
+        }
+      }, 1000);
+    }
+
+    function showDownload() {
+      document.getElementById("continueBtn").style.display = "none";
+      document.getElementById("downloadBtn").style.display =
+        "inline-block";
+    }
+  </script>
+
+</body>
+</html>
