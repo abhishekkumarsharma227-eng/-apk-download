@@ -1,101 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APK Download</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Download</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #111;
-      color: white;
-      padding: 50px 20px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+  text-align: center;
+}
 
-    .box {
-      max-width: 400px;
-      margin: auto;
-      padding: 30px 20px;
-      background: #222;
-      border-radius: 15px;
-    }
+.box {
+  max-width: 420px;
+  margin: 50px auto;
+  padding: 30px 20px;
+  background: #222;
+  border-radius: 15px;
+}
 
-    button {
-      border: 0;
-      padding: 14px 30px;
-      border-radius: 8px;
-      font-size: 17px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+button, .download {
+  display: inline-block;
+  border: 0;
+  padding: 14px 30px;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-size: 17px;
+  cursor: pointer;
+  text-decoration: none;
+}
 
-    #continueBtn {
-      display: none;
-    }
+button {
+  background: #008cff;
+  color: white;
+}
 
-    #downloadBtn {
-      display: none;
-      background: #20c997;
-      color: white;
-    }
-  </style>
+.download {
+  background: #20c997;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+.ad {
+  margin: 25px 0;
+  padding: 25px 10px;
+  border: 1px solid #555;
+  color: #aaa;
+  font-size: 13px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="box">
-    <h1>APK Download</h1>
-    <p>Click Continue to proceed.</p>
+<div class="box">
 
-    <button id="startBtn" onclick="startTimer()">Continue</button>
+  <h1>APK Download</h1>
 
-    <p id="timer"></p>
+  <!-- STEP 1 -->
+  <div id="step1">
+    <p>Step 1</p>
 
-    <button id="continueBtn" onclick="showDownload()">
-      Continue
-    </button>
+    <div class="ad">
+      Advertisement
+      <!-- Yahan baad mein apna approved ad code laga sakte ho -->
+    </div>
 
-    <a id="downloadBtn"
-       href="YOUR_APK_LINK_HERE"
-       download>
-      Download APK
-    </a>
+    <p id="timer1">Click Continue</p>
+    <button onclick="startStep(1)">Continue</button>
   </div>
 
-  <script>
-    function startTimer() {
-      document.getElementById("startBtn").style.display = "none";
 
-      let time = 10;
-      document.getElementById("timer").innerText =
-        "Please wait " + time + " seconds...";
+  <!-- STEP 2 -->
+  <div id="step2" class="hidden">
+    <p>Step 2</p>
 
-      let countdown = setInterval(function() {
-        time--;
+    <div class="ad">
+      Advertisement
+    </div>
 
-        document.getElementById("timer").innerText =
-          "Please wait " + time + " seconds...";
+    <p id="timer2">Click Continue</p>
+    <button onclick="startStep(2)">Continue</button>
+  </div>
 
-        if (time <= 0) {
-          clearInterval(countdown);
 
-          document.getElementById("timer").innerText =
-            "You can continue now.";
+  <!-- STEP 3 -->
+  <div id="step3" class="hidden">
+    <p>Step 3</p>
 
-          document.getElementById("continueBtn").style.display =
-            "inline-block";
-        }
-      }, 1000);
+    <div class="ad">
+      Advertisement
+    </div>
+
+    <p id="timer3">Click Continue</p>
+    <button onclick="startStep(3)">Continue</button>
+  </div>
+
+
+  <!-- STEP 4 -->
+  <div id="step4" class="hidden">
+    <p>Step 4</p>
+
+    <div class="ad">
+      Advertisement
+    </div>
+
+    <p id="timer4">Click Continue</p>
+    <button onclick="startStep(4)">Continue</button>
+  </div>
+
+
+  <!-- DOWNLOAD -->
+  <div id="download" class="hidden">
+
+    <h2>Download Ready</h2>
+    <p>Your APK is ready.</p>
+
+    <a class="download"
+       href="YOUR_APK_LINK_HERE"
+       download>
+       Download APK
+    </a>
+
+  </div>
+
+</div>
+
+
+<script>
+
+function startStep(step) {
+
+  let button = document.querySelector("#step" + step + " button");
+  let timer = document.getElementById("timer" + step);
+
+  button.style.display = "none";
+
+  let time = 10;
+
+  timer.innerText = "Please wait " + time + " seconds...";
+
+  let countdown = setInterval(function() {
+
+    time--;
+
+    timer.innerText =
+      "Please wait " + time + " seconds...";
+
+    if (time <= 0) {
+
+      clearInterval(countdown);
+
+      timer.innerText = "You can continue now.";
+
+      button.style.display = "inline-block";
+
+      button.innerText = "Continue";
+
+      button.onclick = function() {
+        nextStep(step);
+      };
+
     }
 
-    function showDownload() {
-      document.getElementById("continueBtn").style.display = "none";
-      document.getElementById("downloadBtn").style.display =
-        "inline-block";
-    }
-  </script>
+  }, 1000);
+}
+
+
+function nextStep(step) {
+
+  document.getElementById("step" + step).classList.add("hidden");
+
+  if (step < 4) {
+
+    document.getElementById("step" + (step + 1))
+      .classList.remove("hidden");
+
+  } else {
+
+    document.getElementById("download")
+      .classList.remove("hidden");
+
+  }
+
+}
+
+</script>
 
 </body>
 </html>
