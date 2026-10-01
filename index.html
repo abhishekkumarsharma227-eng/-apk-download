@@ -2,194 +2,340 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APK Download</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SAIF CONFIG</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #111;
-  color: white;
-  text-align: center;
+*{
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
 }
 
-.box {
-  max-width: 420px;
-  margin: 50px auto;
-  padding: 30px 20px;
-  background: #222;
-  border-radius: 15px;
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#050505;
+  color:white;
+  overflow:hidden;
 }
 
-button, .download {
-  display: inline-block;
-  border: 0;
-  padding: 14px 30px;
-  margin-top: 20px;
-  border-radius: 8px;
-  font-size: 17px;
-  cursor: pointer;
-  text-decoration: none;
+body::before{
+  content:"";
+  position:fixed;
+  width:350px;
+  height:350px;
+  background:#00ff88;
+  filter:blur(150px);
+  opacity:.12;
+  animation:move 6s infinite alternate;
 }
 
-button {
-  background: #008cff;
-  color: white;
+@keyframes move{
+  from{transform:translate(-100px,-80px)}
+  to{transform:translate(100px,80px)}
 }
 
-.download {
-  background: #20c997;
-  color: white;
+.container{
+  width:92%;
+  max-width:390px;
+  position:relative;
+  z-index:2;
 }
 
-.hidden {
-  display: none;
+/* LOGIN */
+
+.login-box,.panel{
+  background:rgba(20,20,20,.92);
+  border:1px solid #333;
+  border-radius:24px;
+  padding:25px;
+  box-shadow:0 0 35px rgba(0,255,136,.15);
+  backdrop-filter:blur(12px);
+  animation:appear .7s ease;
 }
 
-.ad {
-  margin: 25px 0;
-  padding: 25px 10px;
-  border: 1px solid #555;
-  color: #aaa;
-  font-size: 13px;
+@keyframes appear{
+  from{opacity:0;transform:translateY(30px) scale(.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.logo{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  color:#00ff88;
+  text-shadow:0 0 15px #00ff88;
+  margin-bottom:5px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#888;
+  margin-bottom:25px;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid #333;
+  background:#0b0b0b;
+  color:white;
+  outline:none;
+}
+
+input:focus{
+  border-color:#00ff88;
+}
+
+.login-btn{
+  width:100%;
+  padding:15px;
+  margin-top:12px;
+  border:0;
+  border-radius:12px;
+  background:#00ff88;
+  color:#000;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.login-btn:active{
+  transform:scale(.97);
+}
+
+/* PANEL */
+
+.hidden{
+  display:none;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.header h2{
+  margin:0;
+  color:#00ff88;
+}
+
+.online{
+  font-size:12px;
+  color:#00ff88;
+}
+
+.feature{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#0d0d0d;
+  border:1px solid #292929;
+  padding:15px;
+  border-radius:15px;
+  margin:10px 0;
+  transition:.25s;
+}
+
+.feature:hover{
+  border-color:#00ff88;
+  transform:translateX(3px);
+}
+
+.name{
+  font-weight:bold;
+}
+
+.desc{
+  color:#777;
+  font-size:11px;
+  margin-top:4px;
+}
+
+/* SWITCH */
+
+.switch{
+  position:relative;
+  width:50px;
+  height:27px;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#333;
+  border-radius:30px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:21px;
+  height:21px;
+  left:3px;
+  top:3px;
+  background:white;
+  border-radius:50%;
+  transition:.3s;
+}
+
+.switch input:checked + .slider{
+  background:#00c878;
+  box-shadow:0 0 12px #00ff88;
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(23px);
+}
+
+.footer{
+  text-align:center;
+  color:#555;
+  font-size:11px;
+  margin-top:18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
-  <h1>APK Download</h1>
+  <!-- LOGIN -->
+  <div class="login-box" id="loginBox">
 
-  <!-- STEP 1 -->
-  <div id="step1">
-    <p>Step 1</p>
+    <div class="logo">⚡ SAIF CONFIG ⚡</div>
+    <div class="subtitle">Gaming Practice Panel</div>
 
-    <div class="ad">
-      Advertisement
-      <!-- Yahan baad mein apna approved ad code laga sakte ho -->
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button class="login-btn" onclick="login()">
+      LOGIN
+    </button>
+
+    <div class="footer">
+      Secure Demo Panel
     </div>
-
-    <p id="timer1">Click Continue</p>
-    <button onclick="startStep(1)">Continue</button>
   </div>
 
 
-  <!-- STEP 2 -->
-  <div id="step2" class="hidden">
-    <p>Step 2</p>
+  <!-- PANEL -->
+  <div class="panel hidden" id="panel">
 
-    <div class="ad">
-      Advertisement
+    <div class="header">
+      <h2>SAIF PANEL</h2>
+      <div class="online">● ONLINE</div>
     </div>
 
-    <p id="timer2">Click Continue</p>
-    <button onclick="startStep(2)">Continue</button>
-  </div>
+    <div class="feature">
+      <div>
+        <div class="name">🎯 Aim Training</div>
+        <div class="desc">Practice aim control</div>
+      </div>
 
-
-  <!-- STEP 3 -->
-  <div id="step3" class="hidden">
-    <p>Step 3</p>
-
-    <div class="ad">
-      Advertisement
+      <label class="switch">
+        <input type="checkbox" onchange="status(this,'Aim Training')">
+        <span class="slider"></span>
+      </label>
     </div>
 
-    <p id="timer3">Click Continue</p>
-    <button onclick="startStep(3)">Continue</button>
-  </div>
+    <div class="feature">
+      <div>
+        <div class="name">🔥 Headshot Practice</div>
+        <div class="desc">Training mode only</div>
+      </div>
 
-
-  <!-- STEP 4 -->
-  <div id="step4" class="hidden">
-    <p>Step 4</p>
-
-    <div class="ad">
-      Advertisement
+      <label class="switch">
+        <input type="checkbox" onchange="status(this,'Headshot Practice')">
+        <span class="slider"></span>
+      </label>
     </div>
 
-    <p id="timer4">Click Continue</p>
-    <button onclick="startStep(4)">Continue</button>
-  </div>
+    <div class="feature">
+      <div>
+        <div class="name">⚙️ Sensitivity</div>
+        <div class="desc">Practice settings</div>
+      </div>
 
+      <label class="switch">
+        <input type="checkbox" onchange="status(this,'Sensitivity')">
+        <span class="slider"></span>
+      </label>
+    </div>
 
-  <!-- DOWNLOAD -->
-  <div id="download" class="hidden">
+    <div class="feature">
+      <div>
+        <div class="name">📍 Practice Map</div>
+        <div class="desc">Dummy training locations</div>
+      </div>
 
-    <h2>Download Ready</h2>
-    <p>Your APK is ready.</p>
+      <label class="switch">
+        <input type="checkbox" onchange="status(this,'Practice Map')">
+        <span class="slider"></span>
+      </label>
+    </div>
 
-    <a class="download"
-   href="https://github.com/abhishekkumarsharma227-eng/-apk-download/releases/download/v1.0/@ABHIModOfc.V10.k.apks"
-   download>
-   Download APK
-    </a>
-       download>
-       Download APK
-    </a>
+    <div class="feature">
+      <div>
+        <div class="name">📱 Device Profile</div>
+        <div class="desc">Save your practice settings</div>
+      </div>
+
+      <label class="switch">
+        <input type="checkbox" onchange="status(this,'Device Profile')">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="footer" id="status">
+      System Ready
+    </div>
 
   </div>
 
 </div>
 
-
 <script>
 
-function startStep(step) {
+function login(){
 
-  let button = document.querySelector("#step" + step + " button");
-  let timer = document.getElementById("timer" + step);
+  const user=document.getElementById("username").value;
+  const pass=document.getElementById("password").value;
 
-  button.style.display = "none";
+  if(user && pass){
 
-  let time = 10;
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("panel").classList.remove("hidden");
 
-  timer.innerText = "Please wait " + time + " seconds...";
+  }else{
 
-  let countdown = setInterval(function() {
+    alert("Username aur password enter karo.");
 
-    time--;
-
-    timer.innerText =
-      "Please wait " + time + " seconds...";
-
-    if (time <= 0) {
-
-      clearInterval(countdown);
-
-      timer.innerText = "You can continue now.";
-
-      button.style.display = "inline-block";
-
-      button.innerText = "Continue";
-
-      button.onclick = function() {
-        nextStep(step);
-      };
-
-    }
-
-  }, 1000);
+  }
 }
 
+function status(element,name){
 
-function nextStep(step) {
-
-  document.getElementById("step" + step).classList.add("hidden");
-
-  if (step < 4) {
-
-    document.getElementById("step" + (step + 1))
-      .classList.remove("hidden");
-
-  } else {
-
-    document.getElementById("download")
-      .classList.remove("hidden");
-
+  if(element.checked){
+    document.getElementById("status").innerText =
+      name + " : ON";
+  }else{
+    document.getElementById("status").innerText =
+      name + " : OFF";
   }
 
 }
